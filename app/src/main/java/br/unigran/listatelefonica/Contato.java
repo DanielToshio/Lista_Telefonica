@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Contato {
 
+    public static byte[] getNascimento;
     private String nome;
     private String telefone;
     private Date nascimento;
@@ -30,5 +31,12 @@ public class Contato {
 
     public void setNascimento(Date nascimento) {
         this.nascimento = nascimento;
+    }
+
+    public Object getId() {
+        return null;
+    }
+
+    public void setId(int parseInt) {
     }
 }
