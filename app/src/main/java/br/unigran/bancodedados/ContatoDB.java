@@ -31,28 +31,30 @@ public class ContatoDB {
             ContentValues valores = new ContentValues();
             valores.put("nome",contato.getNome());
             valores.put("telefone",contato.getTelefone());
+            valores.put("nascimento",contato.getNascimento());
+
             int contato1 = conexao.update("Contato", valores, "id=?", new String[]{contato.getId().toString()});
             conexao.close();
         }
         public void remover(int id){
             conexao=db.getWritableDatabase();
-            conexao.delete("Agenda","id=?",
+            conexao.delete("ListaTelefonica","id=?",
                     new String[]{id+""});
         }
         public void lista(List<Contato> dados){
             dados.clear();
             conexao=db.getReadableDatabase();
-            String names[]={"id","nome","telefone"};
-            Cursor query = conexao.query("Agenda", names,
+            String names[]={"nome","telefone","nascimento"};
+            Cursor query = conexao.query("ListaContatos", names,
                     null, null, null,
                     null, "nome");
             while (query.moveToNext()){
                 Contato contato = new Contato();
-                contato.setId(Integer.parseInt(
-                        query.getString(0)));
                 contato.setNome(
-                        query.getString(1));
+                        query.getString(0));
                 contato.setTelefone(
+                        query.getString(1));
+                contato.setNascimento(
                         query.getString(2));
                 dados.add(contato);
             }
