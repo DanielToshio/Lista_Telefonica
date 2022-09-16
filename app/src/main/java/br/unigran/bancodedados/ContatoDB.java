@@ -9,39 +9,29 @@ import java.util.List;
 import br.unigran.listatelefonica.Contato;
 
 public class ContatoDB {
-    package br.unigran.ContatoDB;
-    ;
+    private DBHelper db;
+    private SQLiteDatabase conexao;
+    public ContatoDB(DBHelper db){
+        this.db=db;
+    }
+    public void inserir(Contato contato){
+        conexao = db.getWritableDatabase();//abre o bd
+        ContentValues valores = new ContentValues();
+        valores.put("nome",contato.getNome());
+        valores.put("telefone",contato.getTelefone());
+        valores.put("nascimento",contato.getNascimento());
+        conexao.insertOrThrow("ListaTelefonica",null,valores);
+        conexao.close();
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import br.unigran.listatelefonica.Contato;
-
-    public class ContatoDB {
-        private DBHelper db;
-        private SQLiteDatabase conexao;
-        public ContatoDB(DBHelper db){
-            this.db=db;
         }
-        public void inserir(Nome nome){
-            conexao = db.getWritableDatabase();//abre o bd
-            ContentValues valores = new ContentValues();
-            valores.put("nome",Contato.getNome());
-            valores.put("telefone",Contato.getTelefone());
-            valores.put("nascimento",Contato.getNascimento);
-            conexao.insertOrThrow("Agenda",null,valores);
-            conexao.close();
-        }
+
         public void atualizar(Contato contato){
             conexao = db.getWritableDatabase();
             ContentValues valores = new ContentValues();
             valores.put("nome",contato.getNome());
             valores.put("telefone",contato.getTelefone());
-            conexao.update("Contato",valores, "id=?", new String[]{contato.getId().toString()});
+            int contato1 = conexao.update("Contato", valores, "id=?", new String[]{contato.getId().toString()});
             conexao.close();
         }
         public void remover(int id){
@@ -49,7 +39,7 @@ import br.unigran.listatelefonica.Contato;
             conexao.delete("Agenda","id=?",
                     new String[]{id+""});
         }
-        public void lista(List dados){
+        public void lista(List<Contato> dados){
             dados.clear();
             conexao=db.getReadableDatabase();
             String names[]={"id","nome","telefone"};
@@ -68,5 +58,9 @@ import br.unigran.listatelefonica.Contato;
             }
             conexao.close();
         }
+
+        private void setNome(String string) {
+
+        }
     }
-}
+
